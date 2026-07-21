@@ -3,71 +3,76 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI 财富自由 · 计划驾驶舱（商业计划书级）</title>
+<title>AI 财富自由 · 计划驾驶舱（深度计划书级）</title>
 <style>
   :root{
-    --bg:#0f1419; --panel:#171f2a; --panel2:#1e2836; --line:#2a3647;
-    --txt:#e6edf3; --mut:#8b98a9; --acc:#4cc2a8; --acc2:#6ea8fe; --warn:#e0a96d;
-    --c1:#4cc2a8; --c2:#6ea8fe; --c3:#e0a96d; --c4:#c792ea; --c5:#f48fb1;
-    --c6:#7bd88f; --c7:#5bc0eb; --c8:#ffb454; --c9:#a3be8c; --c10:#b48ead;
+    --bg:#eef1f5; --panel:#ffffff; --panel2:#f6f8fb; --line:#dde3ea;
+    --txt:#1f2933; --mut:#6b7785; --acc:#0d9488; --acc2:#2563eb; --warn:#f59e0b;
+    --c1:#0d9488; --c2:#2563eb; --c3:#d97706; --c4:#7c3aed; --c5:#db2777;
+    --c6:#059669; --c7:#0891b2; --c8:#ea580c; --c9:#4d7c0f; --c10:#9333ea;
   }
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--txt);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;font-size:14px;line-height:1.6}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;font-size:14px;line-height:1.7}
   a{color:var(--acc2)}
-  header{padding:18px 24px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#13202b,#0f1419);position:sticky;top:0;z-index:10}
-  header h1{margin:0;font-size:20px;letter-spacing:.5px}
+  header{padding:18px 24px;background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+  header h1{margin:0;font-size:20px;color:#0f2e2a}
   header .sub{color:var(--mut);font-size:12px;margin-top:4px}
   .wrap{max-width:1320px;margin:0 auto;padding:18px 24px 60px}
   .stats{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0}
-  .stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;min-width:120px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;min-width:120px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
   .stat .n{font-size:22px;font-weight:700;color:var(--acc)}
   .stat .l{font-size:12px;color:var(--mut)}
-  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:8px}
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:8px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
   .controls input,.controls select{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:13px}
   .controls input[type=text]{min-width:200px}
   .controls label{color:var(--mut);font-size:12px;display:flex;align-items:center;gap:5px}
   .btn{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer;font-size:13px}
   .btn:hover{border-color:var(--acc)}
-  .btn.acc{background:var(--acc);color:#06231d;border-color:var(--acc);font-weight:600}
+  .btn.acc{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600}
   .legend{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px}
   .legend span{font-size:11px;color:var(--mut);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:3px 10px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:14px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:14px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer;transition:.15s;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+  .card:hover{box-shadow:0 6px 18px rgba(16,24,40,.10);transform:translateY(-2px);border-color:var(--acc)}
   .card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-  .card h3{margin:0;font-size:15px;line-height:1.4}
-  .badge{font-size:11px;padding:2px 8px;border-radius:20px;white-space:nowrap;color:#06231d;font-weight:600}
+  .card h3{margin:0;font-size:15px;line-height:1.4;color:#102a26}
+  .badge{font-size:11px;padding:2px 9px;border-radius:20px;white-space:nowrap;color:#fff;font-weight:600}
   .meta{color:var(--mut);font-size:11px;margin:4px 0 6px}
-  .position{font-size:13px;color:#cdd9e5;background:var(--panel2);border-left:3px solid var(--acc);padding:8px 10px;border-radius:6px}
-  .airow{display:flex;gap:14px;align-items:center;margin-top:10px;font-size:12px;color:var(--mut);flex-wrap:wrap}
-  .airow .ai{background:#202b1f;border:1px solid #2f4a2c;color:#9fe08f;border-radius:20px;padding:2px 9px}
-  .stars{letter-spacing:2px;color:#3a4658}
+  .position{font-size:13px;color:#374151;background:var(--panel2);border-left:3px solid var(--acc);padding:8px 10px;border-radius:6px;margin-top:4px}
+  .airow{display:flex;gap:12px;align-items:center;margin-top:10px;font-size:12px;color:var(--mut);flex-wrap:wrap}
+  .airow .ai{background:#e6f7f4;color:var(--acc);border:1px solid #b8e6df;border-radius:20px;padding:2px 9px;font-weight:600}
+  .stars{letter-spacing:2px;color:#cbd5e1}
   .stars .on{color:var(--warn)}
-  .detail{display:none;margin-top:10px;font-size:12.5px}
-  .detail.open{display:block}
-  .detail .row{margin:8px 0}
-  .detail .k{color:var(--acc2);font-weight:600;font-size:11.5px;display:block;margin-bottom:2px}
-  .toggle{color:var(--acc);cursor:pointer;font-size:12px;margin-top:8px;user-select:none}
-  .rate{display:flex;gap:18px;margin-top:12px;align-items:center;flex-wrap:wrap}
-  .rate .grp{display:flex;align-items:center;gap:6px}
-  .rate .lab{font-size:12px;color:var(--mut)}
-  .ustars{font-size:18px;cursor:pointer;letter-spacing:2px;color:#3a4658}
-  .ustars .on{color:var(--warn)}
-  .ustars .val{font-size:11px;color:var(--mut);margin-left:4px}
-  .status{margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .status select{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:12.5px}
-  textarea{width:100%;margin-top:8px;background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px;resize:vertical;min-height:46px;font-family:inherit}
-  .foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;color:var(--mut);font-size:11px}
-  .foot .copy{cursor:pointer;color:var(--acc2)}
+  .more{margin-top:10px;color:var(--acc2);font-size:12px;font-weight:600}
   .empty{color:var(--mut);text-align:center;padding:40px}
   .pill{font-size:10px;padding:1px 7px;border-radius:10px;border:1px solid var(--line);color:var(--mut)}
-  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--acc);color:#06231d;padding:10px 18px;border-radius:10px;font-weight:600;opacity:0;transition:.3s;z-index:50}
+  /* modal */
+  .mask{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;align-items:flex-start;justify-content:center;z-index:50;padding:30px 14px;overflow:auto}
+  .mask.open{display:flex}
+  .modal{background:#fff;border-radius:14px;max-width:920px;width:100%;padding:22px 26px 30px;box-shadow:0 20px 60px rgba(0,0,0,.25);position:relative}
+  .modal .x{position:absolute;top:14px;right:18px;cursor:pointer;font-size:22px;color:var(--mut);border:none;background:none}
+  .modal h2{margin:0 0 2px;font-size:20px;color:#0f2e2a;padding-right:30px}
+  .modal .mbadge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:20px;color:#fff;font-weight:600;margin-top:4px}
+  .modal .mmeta{color:var(--mut);font-size:12px;margin:6px 0 10px}
+  .modal .mpos{background:var(--panel2);border-left:4px solid var(--acc);padding:10px 12px;border-radius:8px;margin-bottom:12px;font-size:14px}
+  .modal .airow{background:var(--panel2);padding:10px 12px;border-radius:8px}
+  .sec{margin:16px 0}
+  .sec h4{margin:0 0 4px;font-size:14px;color:var(--acc);border-bottom:2px solid #e6f7f4;padding-bottom:3px}
+  .sec p{margin:0;font-size:13.5px;color:#26323c;white-space:pre-wrap}
+  .scorebox{display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin:14px 0;padding:12px;border:1px dashed var(--line);border-radius:10px;background:var(--panel2)}
+  .ustars{font-size:20px;cursor:pointer;letter-spacing:2px;color:#cbd5e1}
+  .ustars .on{color:var(--warn)}
+  .ustars .val{font-size:11px;color:var(--mut);margin-left:4px}
+  .scorebox select{background:#fff;color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:6px 8px}
+  .scorebox textarea{width:100%;margin-top:8px;background:#fff;color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px;font-size:13px;resize:vertical;min-height:50px;font-family:inherit}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--acc);color:#fff;padding:10px 18px;border-radius:10px;font-weight:600;opacity:0;transition:.3s;z-index:60}
   .toast.show{opacity:1}
 </style>
 </head>
 <body>
 <header>
-  <h1>AI 财富自由 · 计划驾驶舱（商业计划书级）</h1>
-  <div class="sub">每条计划含：定位/痛点/产品功能/市场/商业模式/投入/收益/竞品/挑战/合规/进度 + AI初评。你的可行性/优先级评分与备注存于本机浏览器，不外传。</div>
+  <h1>AI 财富自由 · 计划驾驶舱（深度计划书级）</h1>
+  <div class="sub">每份计划为完整商业计划书（市场/竞品/产品/技术/财务/路线图/风险/AI评估）。点击卡片弹出全文；你的可行性/优先级评分与备注存于本机浏览器，不外传。</div>
 </header>
 
 <div class="wrap">
@@ -96,9 +101,15 @@
   </div>
 
   <div class="legend" id="legend"></div>
-
   <div class="grid" id="grid"></div>
   <div class="empty" id="empty" style="display:none">没有匹配的计划。试试调整筛选条件。</div>
+</div>
+
+<div class="mask" id="mask">
+  <div class="modal" id="modal">
+    <button class="x" id="closeX">×</button>
+    <div id="modalBody"></div>
+  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -108,10 +119,12 @@
 const CATS = ["专业·环保AI","双碳·咨询","内容·写作","心理·人文","金融·投资","社群·内向者","产品·工具","学术·IP","投资·理财","其他·跨界"];
 const CATCOL = {"专业·环保AI":"--c1","双碳·咨询":"--c2","内容·写作":"--c3","心理·人文":"--c4","金融·投资":"--c5","社群·内向者":"--c6","产品·工具":"--c7","学术·IP":"--c8","投资·理财":"--c9","其他·跨界":"--c10"};
 const SECTIONS = [
-  ["痛点与机会","problem"],["产品与功能（PM+AI视角）","solution"],["目标市场与受众","market"],
-  ["商业模式与变现","model"],["预期投入","investment"],["预期收益","revenue"],
-  ["现有市场与竞品","competition"],["关键挑战与风险","challenges"],["合规边界","compliance"],
-  ["进度计划","roadmap"],["AI初步建议","ai_recommend"]
+  ["执行摘要","executive"],["背景与机会（痛点）","background"],["市场规模与受众","market"],
+  ["竞品与现有市场","competition"],["产品与功能详述（PM视角）","product"],
+  ["技术与AI实现（AI专家视角）","ai_tech"],["商业模式与变现","model"],
+  ["营收预测与投入","financials"],["里程碑与路线图","roadmap"],["团队与资源","team"],
+  ["风险与合规","risks"],["关键成功指标","metrics"],["AI评估与建议","evaluation"],
+  ["数据来源/参考","sources"]
 ];
 const STORE = "aifree_userdata_v1";
 const PLANS = window.PLANS || [];
@@ -124,15 +137,15 @@ function setU(id, patch){ UD[id]=Object.assign(getU(id), patch); saveUD(); }
 function esc(s){ return (s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
 function toast(m){ const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1600); }
 function stars(val){ let s=""; for(let i=1;i<=5;i++) s+=`<span class="${i<=val?'on':''}">★</span>`; return s; }
+function col(c){ return getComputedStyle(document.documentElement).getPropertyValue(CATCOL[c]||"--c1").trim(); }
 
 document.getElementById("cat").innerHTML='<option value="">全部分类</option>'+CATS.map(c=>`<option>${c}</option>`).join("");
-document.getElementById("legend").innerHTML = CATS.map(c=>`<span style="border-left:3px solid var(${CATCOL[c]});padding-left:8px">${c}</span>`).join("");
+document.getElementById("legend").innerHTML = CATS.map(c=>`<span style="border-left:3px solid ${col(c)};padding-left:8px">${c}</span>`).join("");
 
 function render(){
   const q=document.getElementById("q").value.trim().toLowerCase();
   const cat=document.getElementById("cat").value, st=document.getElementById("status").value;
   const unrated=document.getElementById("unrated").checked, sort=document.getElementById("sort").value;
-
   let list=PLANS.filter(p=>{
     if(cat && p.category!==cat) return false;
     if(st && getU(p.id).status!==st) return false;
@@ -140,7 +153,6 @@ function render(){
     if(q){ const hay=JSON.stringify(p).toLowerCase(); if(!hay.includes(q)) return false; }
     return true;
   });
-
   list.sort((a,b)=>{
     const ua=getU(a.id), ub=getU(b.id);
     if(sort==="feas") return ub.feas-ua.feas;
@@ -149,70 +161,79 @@ function render(){
     if(sort==="aicombo") return ((b.ai_feasibility||0)*(b.ai_priority||0))-((a.ai_feasibility||0)*(a.ai_priority||0));
     return b.created.localeCompare(a.created);
   });
-
   const grid=document.getElementById("grid"); grid.innerHTML="";
   list.forEach(p=>{
-    const u=getU(p.id);
-    const col=getComputedStyle(document.documentElement).getPropertyValue(CATCOL[p.category]||"--c1").trim();
+    const u=getU(p.id); const c=col(p.category);
     const af=p.ai_feasibility||0, ap=p.ai_priority||0;
-    const rows=SECTIONS.map(([lab,key])=>`<div class="row"><span class="k">${lab}</span>${esc(p[key])}</div>`).join("");
-    const card=document.createElement("div"); card.className="card";
+    const card=document.createElement("div"); card.className="card"; card.dataset.id=p.id;
     card.innerHTML=`
-      <div class="top"><h3>${esc(p.title)}</h3><span class="badge" style="background:${col}">${esc(p.category)}</span></div>
+      <div class="top"><h3>${esc(p.title)}</h3><span class="badge" style="background:${c}">${esc(p.category)}</span></div>
       <div class="meta">${p.id} · 第${p.batch}批 · ${esc(p.created)}</div>
       <div class="position">${esc(p.positioning)}</div>
       <div class="airow">
         <span class="ai">AI初评</span>
-        <span>可行性 ${stars(af)} <b style="color:var(--txt)">${af||"-"}</b>/5</span>
-        <span>优先级 ${stars(ap)} <b style="color:var(--txt)">${ap||"-"}</b>/5</span>
+        <span>可行性 ${stars(af)} <b>${af||"-"}</b>/5</span>
+        <span>优先级 ${stars(ap)} <b>${ap||"-"}</b>/5</span>
         <span class="pill">AI综合 ${af*ap}</span>
       </div>
-      <div class="toggle" data-id="${p.id}">▸ 展开商业计划书全文（痛点/功能/市场/投入产出/竞品/挑战/合规/进度）</div>
-      <div class="detail" id="d-${p.id}">${rows}</div>
-      <div class="rate">
-        <div class="grp"><span class="lab">我的可行性</span><span class="ustars" data-f="feas" data-id="${p.id}">${stars(u.feas)}<span class="val">${u.feas||"-"}</span></span></div>
-        <div class="grp"><span class="lab">我的优先级</span><span class="ustars" data-f="prio" data-id="${p.id}">${stars(u.prio)}<span class="val">${u.prio||"-"}</span></span></div>
-        <span class="pill">我的综合 ${u.feas*u.prio}</span>
-      </div>
-      <div class="status">
-        <span style="color:var(--mut);font-size:12px">状态</span>
-        <select data-f="status" data-id="${p.id}">
-          ${["想法","待启动","进行中","已搁置","已放弃"].map(s=>`<option ${u.status===s?'selected':''}>${s}</option>`).join("")}
-        </select>
-      </div>
-      <textarea data-f="comment" data-id="${p.id}" placeholder="我的备注 / 可行性判断 / 下一步…">${esc(u.comment)}</textarea>
-      <div class="foot"><span>创建 ${esc(p.created)}</span><span class="copy" data-id="${p.id}">复制ID</span></div>
-    `;
+      <div class="more">点击查看完整计划书 →</div>`;
+    card.onclick=()=>openModal(p.id);
     grid.appendChild(card);
   });
   document.getElementById("empty").style.display = list.length? "none":"block";
-  bindEvents(); renderStats();
+  renderStats();
 }
 
-function bindEvents(){
-  document.querySelectorAll(".toggle").forEach(t=>t.onclick=()=>{
-    const d=document.getElementById("d-"+t.dataset.id); d.classList.toggle("open");
-    t.textContent = d.classList.contains("open")? "▾ 收起" : "▸ 展开商业计划书全文（痛点/功能/市场/投入产出/竞品/挑战/合规/进度）";
-  });
-  document.querySelectorAll(".ustars").forEach(s=>{
+function openModal(id){
+  const p=PLANS.find(x=>x.id===id); if(!p) return;
+  const u=getU(id); const c=col(p.category);
+  const af=p.ai_feasibility||0, ap=p.ai_priority||0;
+  const secs=SECTIONS.map(([lab,key])=>`<div class="sec"><h4>${lab}</h4><p>${esc(p[key])}</p></div>`).join("");
+  document.getElementById("modalBody").innerHTML=`
+    <h2>${esc(p.title)}</h2>
+    <span class="mbadge" style="background:${c}">${esc(p.category)}</span>
+    <div class="mmeta">${p.id} · 第${p.batch}批 · ${esc(p.created)}</div>
+    <div class="mpos"><b>一句话定位：</b>${esc(p.positioning)}</div>
+    <div class="airow">
+      <span class="ai">AI初评</span>
+      <span>可行性 ${stars(af)} <b>${af||"-"}</b>/5</span>
+      <span>优先级 ${stars(ap)} <b>${ap||"-"}</b>/5</span>
+      <span class="pill">AI综合 ${af*ap}</span>
+    </div>
+    ${secs}
+    <div class="scorebox">
+      <div><span style="color:var(--mut);font-size:12px">我的可行性</span><br><span class="ustars" data-f="feas" data-id="${id}">${stars(u.feas)}<span class="val">${u.feas||"-"}</span></span></div>
+      <div><span style="color:var(--mut);font-size:12px">我的优先级</span><br><span class="ustars" data-f="prio" data-id="${id}">${stars(u.prio)}<span class="val">${u.prio||"-"}</span></span></div>
+      <div><span style="color:var(--mut);font-size:12px">状态</span><br>
+        <select data-f="status" data-id="${id}">${["想法","待启动","进行中","已搁置","已放弃"].map(s=>`<option ${u.status===s?'selected':''}>${s}</option>`).join("")}</select>
+        <span class="pill">我的综合 ${u.feas*u.prio}</span>
+      </div>
+      <textarea data-f="comment" data-id="${id}" placeholder="我的备注 / 可行性判断 / 下一步…">${esc(u.comment)}</textarea>
+      <div><button class="btn" id="copyId">复制ID ${id}</button></div>
+    </div>`;
+  bindModal(id);
+  document.getElementById("mask").classList.add("open");
+  document.body.style.overflow="hidden";
+}
+function bindModal(id){
+  document.querySelectorAll("#modal .ustars").forEach(s=>{
     s.onclick=(e)=>{
       const rect=s.getBoundingClientRect(); const x=e.clientX-rect.left;
       const step=rect.width/5; let v=Math.ceil(x/step); if(v<1)v=1; if(v>5)v=5;
-      const cur=getU(s.dataset.id)[s.dataset.f]; if(cur===v) v=0;
-      setU(s.dataset.id,{[s.dataset.f]:v}); render();
+      const cur=getU(id)[s.dataset.f]; if(cur===v) v=0;
+      setU(id,{[s.dataset.f]:v}); openModal(id);
     };
   });
-  document.querySelectorAll("select[data-f='status']").forEach(s=>{
-    s.onchange=()=>{ setU(s.dataset.id,{status:s.value}); toast("状态已保存"); };
-  });
-  document.querySelectorAll("textarea[data-f='comment']").forEach(t=>{
-    t.oninput=()=>{ setU(t.dataset.id,{comment:t.value}); };
+  document.querySelectorAll("#modal select[data-f='status']").forEach(s=>{ s.onchange=()=>{ setU(id,{status:s.value}); toast("状态已保存"); }; });
+  document.querySelectorAll("#modal textarea[data-f='comment']").forEach(t=>{
+    t.oninput=()=>{ setU(id,{comment:t.value}); };
     t.onblur=()=>toast("备注已保存");
   });
-  document.querySelectorAll(".copy").forEach(c=>c.onclick=()=>{
-    navigator.clipboard.writeText(c.dataset.id).then(()=>toast("已复制 "+c.dataset.id));
-  });
+  document.getElementById("copyId").onclick=()=>{ navigator.clipboard.writeText(id).then(()=>toast("已复制 "+id)); };
 }
+function closeModal(){ document.getElementById("mask").classList.remove("open"); document.body.style.overflow=""; }
+document.getElementById("closeX").onclick=closeModal;
+document.getElementById("mask").onclick=(e)=>{ if(e.target.id==="mask") closeModal(); };
 
 function renderStats(){
   const total=PLANS.length;
@@ -222,9 +243,9 @@ function renderStats(){
     if(u.feas||u.prio){rated++; sf+=u.feas; sp+=u.prio;}
     saf+=(p.ai_feasibility||0); sap+=(p.ai_priority||0);
   });
-  const af=total?(saf/total).toFixed(1):"-", ap=total?(sap/total).toFixed(1):"-";
   const uf=rated?(sf/rated).toFixed(1):"-", up=rated?(sp/rated).toFixed(1):"-";
-  const top=PLANS.map(p=>({p,s:(p.ai_feasibility||0)*(p.ai_priority||0)})).sort((a,b)=>b.s-a.s).slice(0,3).filter(x=>x.s>0);
+  const af=total?(saf/total).toFixed(1):"-", ap=total?(sap/total).toFixed(1):"-";
+  const top=PLANS.map(p=>({p:s:(p.ai_feasibility||0)*(p.ai_priority||0)})).sort((a,b)=>b.s-a.s).slice(0,3).filter(x=>x.s>0);
   document.getElementById("stats").innerHTML=`
     <div class="stat"><div class="n">${total}</div><div class="l">计划总数</div></div>
     <div class="stat"><div class="n">${rated}</div><div class="l">我已评分</div></div>
@@ -232,10 +253,8 @@ function renderStats(){
     <div class="stat"><div class="n">${up}</div><div class="l">我的平均优先级</div></div>
     <div class="stat"><div class="n">${af}</div><div class="l">AI平均可行性</div></div>
     <div class="stat"><div class="n">${ap}</div><div class="l">AI平均优先级</div></div>
-    <div class="stat"><div class="n">${top.length?top[0].p.id:"-"}</div><div class="l">AI综合最高</div></div>
-  `;
+    <div class="stat"><div class="n">${top.length?top[0].p.id:"-"}</div><div class="l">AI综合最高</div></div>`;
 }
-
 ["q","cat","status","sort","unrated"].forEach(id=>{
   document.getElementById(id).addEventListener("input",render);
   document.getElementById(id).addEventListener("change",render);
