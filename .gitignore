@@ -1,0 +1,7 @@
+# 临时与敏感文件，勿入仓库
+.batch.json
+.gh_token
+.git_token
+node_modules/
+*.log
+.DS_Store

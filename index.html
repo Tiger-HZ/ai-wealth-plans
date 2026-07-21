@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 财富自由 · 计划驾驶舱（商业计划书级）</title>
+<style>
+  :root{
+    --bg:#0f1419; --panel:#171f2a; --panel2:#1e2836; --line:#2a3647;
+    --txt:#e6edf3; --mut:#8b98a9; --acc:#4cc2a8; --acc2:#6ea8fe; --warn:#e0a96d;
+    --c1:#4cc2a8; --c2:#6ea8fe; --c3:#e0a96d; --c4:#c792ea; --c5:#f48fb1;
+    --c6:#7bd88f; --c7:#5bc0eb; --c8:#ffb454; --c9:#a3be8c; --c10:#b48ead;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;font-size:14px;line-height:1.6}
+  a{color:var(--acc2)}
+  header{padding:18px 24px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#13202b,#0f1419);position:sticky;top:0;z-index:10}
+  header h1{margin:0;font-size:20px;letter-spacing:.5px}
+  header .sub{color:var(--mut);font-size:12px;margin-top:4px}
+  .wrap{max-width:1320px;margin:0 auto;padding:18px 24px 60px}
+  .stats{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 16px;min-width:120px}
+  .stat .n{font-size:22px;font-weight:700;color:var(--acc)}
+  .stat .l{font-size:12px;color:var(--mut)}
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin-bottom:8px}
+  .controls input,.controls select{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font-size:13px}
+  .controls input[type=text]{min-width:200px}
+  .controls label{color:var(--mut);font-size:12px;display:flex;align-items:center;gap:5px}
+  .btn{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer;font-size:13px}
+  .btn:hover{border-color:var(--acc)}
+  .btn.acc{background:var(--acc);color:#06231d;border-color:var(--acc);font-weight:600}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px}
+  .legend span{font-size:11px;color:var(--mut);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:3px 10px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(420px,1fr));gap:14px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column}
+  .card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+  .card h3{margin:0;font-size:15px;line-height:1.4}
+  .badge{font-size:11px;padding:2px 8px;border-radius:20px;white-space:nowrap;color:#06231d;font-weight:600}
+  .meta{color:var(--mut);font-size:11px;margin:4px 0 6px}
+  .position{font-size:13px;color:#cdd9e5;background:var(--panel2);border-left:3px solid var(--acc);padding:8px 10px;border-radius:6px}
+  .airow{display:flex;gap:14px;align-items:center;margin-top:10px;font-size:12px;color:var(--mut);flex-wrap:wrap}
+  .airow .ai{background:#202b1f;border:1px solid #2f4a2c;color:#9fe08f;border-radius:20px;padding:2px 9px}
+  .stars{letter-spacing:2px;color:#3a4658}
+  .stars .on{color:var(--warn)}
+  .detail{display:none;margin-top:10px;font-size:12.5px}
+  .detail.open{display:block}
+  .detail .row{margin:8px 0}
+  .detail .k{color:var(--acc2);font-weight:600;font-size:11.5px;display:block;margin-bottom:2px}
+  .toggle{color:var(--acc);cursor:pointer;font-size:12px;margin-top:8px;user-select:none}
+  .rate{display:flex;gap:18px;margin-top:12px;align-items:center;flex-wrap:wrap}
+  .rate .grp{display:flex;align-items:center;gap:6px}
+  .rate .lab{font-size:12px;color:var(--mut)}
+  .ustars{font-size:18px;cursor:pointer;letter-spacing:2px;color:#3a4658}
+  .ustars .on{color:var(--warn)}
+  .ustars .val{font-size:11px;color:var(--mut);margin-left:4px}
+  .status{margin-top:10px;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .status select{background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:6px 8px;font-size:12.5px}
+  textarea{width:100%;margin-top:8px;background:var(--panel2);color:var(--txt);border:1px solid var(--line);border-radius:8px;padding:8px;font-size:12.5px;resize:vertical;min-height:46px;font-family:inherit}
+  .foot{display:flex;justify-content:space-between;align-items:center;margin-top:10px;color:var(--mut);font-size:11px}
+  .foot .copy{cursor:pointer;color:var(--acc2)}
+  .empty{color:var(--mut);text-align:center;padding:40px}
+  .pill{font-size:10px;padding:1px 7px;border-radius:10px;border:1px solid var(--line);color:var(--mut)}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--acc);color:#06231d;padding:10px 18px;border-radius:10px;font-weight:600;opacity:0;transition:.3s;z-index:50}
+  .toast.show{opacity:1}
+</style>
+</head>
+<body>
+<header>
+  <h1>AI 财富自由 · 计划驾驶舱（商业计划书级）</h1>
+  <div class="sub">每条计划含：定位/痛点/产品功能/市场/商业模式/投入/收益/竞品/挑战/合规/进度 + AI初评。你的可行性/优先级评分与备注存于本机浏览器，不外传。</div>
+</header>
+
+<div class="wrap">
+  <div class="stats" id="stats"></div>
+
+  <div class="controls">
+    <input type="text" id="q" placeholder="搜索标题/内容…">
+    <select id="cat"></select>
+    <select id="status">
+      <option value="">全部状态</option>
+      <option>想法</option><option>待启动</option><option>进行中</option><option>已搁置</option><option>已放弃</option>
+    </select>
+    <select id="sort">
+      <option value="created">按创建时间</option>
+      <option value="feas">按我的可行性</option>
+      <option value="prio">按我的优先级</option>
+      <option value="combo">按我的综合</option>
+      <option value="aicombo">按AI综合</option>
+    </select>
+    <label><input type="checkbox" id="unrated"> 仅看我未评分</label>
+    <button class="btn" id="reset">重置筛选</button>
+    <span style="flex:1"></span>
+    <button class="btn" id="export">导出我的评分</button>
+    <button class="btn" id="importBtn">导入</button>
+    <input type="file" id="importFile" accept="application/json" style="display:none">
+  </div>
+
+  <div class="legend" id="legend"></div>
+
+  <div class="grid" id="grid"></div>
+  <div class="empty" id="empty" style="display:none">没有匹配的计划。试试调整筛选条件。</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="plans-data.js"></script>
+<script>
+const CATS = ["专业·环保AI","双碳·咨询","内容·写作","心理·人文","金融·投资","社群·内向者","产品·工具","学术·IP","投资·理财","其他·跨界"];
+const CATCOL = {"专业·环保AI":"--c1","双碳·咨询":"--c2","内容·写作":"--c3","心理·人文":"--c4","金融·投资":"--c5","社群·内向者":"--c6","产品·工具":"--c7","学术·IP":"--c8","投资·理财":"--c9","其他·跨界":"--c10"};
+const SECTIONS = [
+  ["痛点与机会","problem"],["产品与功能（PM+AI视角）","solution"],["目标市场与受众","market"],
+  ["商业模式与变现","model"],["预期投入","investment"],["预期收益","revenue"],
+  ["现有市场与竞品","competition"],["关键挑战与风险","challenges"],["合规边界","compliance"],
+  ["进度计划","roadmap"],["AI初步建议","ai_recommend"]
+];
+const STORE = "aifree_userdata_v1";
+const PLANS = window.PLANS || [];
+let UD = loadUD();
+
+function loadUD(){ try{return JSON.parse(localStorage.getItem(STORE))||{};}catch(e){return {};} }
+function saveUD(){ localStorage.setItem(STORE, JSON.stringify(UD)); }
+function getU(id){ return UD[id] || {feas:0,prio:0,status:"想法",comment:""}; }
+function setU(id, patch){ UD[id]=Object.assign(getU(id), patch); saveUD(); }
+function esc(s){ return (s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function toast(m){ const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1600); }
+function stars(val){ let s=""; for(let i=1;i<=5;i++) s+=`<span class="${i<=val?'on':''}">★</span>`; return s; }
+
+document.getElementById("cat").innerHTML='<option value="">全部分类</option>'+CATS.map(c=>`<option>${c}</option>`).join("");
+document.getElementById("legend").innerHTML = CATS.map(c=>`<span style="border-left:3px solid var(${CATCOL[c]});padding-left:8px">${c}</span>`).join("");
+
+function render(){
+  const q=document.getElementById("q").value.trim().toLowerCase();
+  const cat=document.getElementById("cat").value, st=document.getElementById("status").value;
+  const unrated=document.getElementById("unrated").checked, sort=document.getElementById("sort").value;
+
+  let list=PLANS.filter(p=>{
+    if(cat && p.category!==cat) return false;
+    if(st && getU(p.id).status!==st) return false;
+    if(unrated && (getU(p.id).feas>0||getU(p.id).prio>0)) return false;
+    if(q){ const hay=JSON.stringify(p).toLowerCase(); if(!hay.includes(q)) return false; }
+    return true;
+  });
+
+  list.sort((a,b)=>{
+    const ua=getU(a.id), ub=getU(b.id);
+    if(sort==="feas") return ub.feas-ua.feas;
+    if(sort==="prio") return ub.prio-ua.prio;
+    if(sort==="combo") return (ub.feas*ub.prio)-(ua.feas*ua.prio);
+    if(sort==="aicombo") return ((b.ai_feasibility||0)*(b.ai_priority||0))-((a.ai_feasibility||0)*(a.ai_priority||0));
+    return b.created.localeCompare(a.created);
+  });
+
+  const grid=document.getElementById("grid"); grid.innerHTML="";
+  list.forEach(p=>{
+    const u=getU(p.id);
+    const col=getComputedStyle(document.documentElement).getPropertyValue(CATCOL[p.category]||"--c1").trim();
+    const af=p.ai_feasibility||0, ap=p.ai_priority||0;
+    const rows=SECTIONS.map(([lab,key])=>`<div class="row"><span class="k">${lab}</span>${esc(p[key])}</div>`).join("");
+    const card=document.createElement("div"); card.className="card";
+    card.innerHTML=`
+      <div class="top"><h3>${esc(p.title)}</h3><span class="badge" style="background:${col}">${esc(p.category)}</span></div>
+      <div class="meta">${p.id} · 第${p.batch}批 · ${esc(p.created)}</div>
+      <div class="position">${esc(p.positioning)}</div>
+      <div class="airow">
+        <span class="ai">AI初评</span>
+        <span>可行性 ${stars(af)} <b style="color:var(--txt)">${af||"-"}</b>/5</span>
+        <span>优先级 ${stars(ap)} <b style="color:var(--txt)">${ap||"-"}</b>/5</span>
+        <span class="pill">AI综合 ${af*ap}</span>
+      </div>
+      <div class="toggle" data-id="${p.id}">▸ 展开商业计划书全文（痛点/功能/市场/投入产出/竞品/挑战/合规/进度）</div>
+      <div class="detail" id="d-${p.id}">${rows}</div>
+      <div class="rate">
+        <div class="grp"><span class="lab">我的可行性</span><span class="ustars" data-f="feas" data-id="${p.id}">${stars(u.feas)}<span class="val">${u.feas||"-"}</span></span></div>
+        <div class="grp"><span class="lab">我的优先级</span><span class="ustars" data-f="prio" data-id="${p.id}">${stars(u.prio)}<span class="val">${u.prio||"-"}</span></span></div>
+        <span class="pill">我的综合 ${u.feas*u.prio}</span>
+      </div>
+      <div class="status">
+        <span style="color:var(--mut);font-size:12px">状态</span>
+        <select data-f="status" data-id="${p.id}">
+          ${["想法","待启动","进行中","已搁置","已放弃"].map(s=>`<option ${u.status===s?'selected':''}>${s}</option>`).join("")}
+        </select>
+      </div>
+      <textarea data-f="comment" data-id="${p.id}" placeholder="我的备注 / 可行性判断 / 下一步…">${esc(u.comment)}</textarea>
+      <div class="foot"><span>创建 ${esc(p.created)}</span><span class="copy" data-id="${p.id}">复制ID</span></div>
+    `;
+    grid.appendChild(card);
+  });
+  document.getElementById("empty").style.display = list.length? "none":"block";
+  bindEvents(); renderStats();
+}
+
+function bindEvents(){
+  document.querySelectorAll(".toggle").forEach(t=>t.onclick=()=>{
+    const d=document.getElementById("d-"+t.dataset.id); d.classList.toggle("open");
+    t.textContent = d.classList.contains("open")? "▾ 收起" : "▸ 展开商业计划书全文（痛点/功能/市场/投入产出/竞品/挑战/合规/进度）";
+  });
+  document.querySelectorAll(".ustars").forEach(s=>{
+    s.onclick=(e)=>{
+      const rect=s.getBoundingClientRect(); const x=e.clientX-rect.left;
+      const step=rect.width/5; let v=Math.ceil(x/step); if(v<1)v=1; if(v>5)v=5;
+      const cur=getU(s.dataset.id)[s.dataset.f]; if(cur===v) v=0;
+      setU(s.dataset.id,{[s.dataset.f]:v}); render();
+    };
+  });
+  document.querySelectorAll("select[data-f='status']").forEach(s=>{
+    s.onchange=()=>{ setU(s.dataset.id,{status:s.value}); toast("状态已保存"); };
+  });
+  document.querySelectorAll("textarea[data-f='comment']").forEach(t=>{
+    t.oninput=()=>{ setU(t.dataset.id,{comment:t.value}); };
+    t.onblur=()=>toast("备注已保存");
+  });
+  document.querySelectorAll(".copy").forEach(c=>c.onclick=()=>{
+    navigator.clipboard.writeText(c.dataset.id).then(()=>toast("已复制 "+c.dataset.id));
+  });
+}
+
+function renderStats(){
+  const total=PLANS.length;
+  let rated=0,sf=0,sp=0, saf=0,sap=0;
+  const byCat={}; CATS.forEach(c=>byCat[c]=0);
+  PLANS.forEach(p=>{ const u=getU(p.id); byCat[p.category]++;
+    if(u.feas||u.prio){rated++; sf+=u.feas; sp+=u.prio;}
+    saf+=(p.ai_feasibility||0); sap+=(p.ai_priority||0);
+  });
+  const af=total?(saf/total).toFixed(1):"-", ap=total?(sap/total).toFixed(1):"-";
+  const uf=rated?(sf/rated).toFixed(1):"-", up=rated?(sp/rated).toFixed(1):"-";
+  const top=PLANS.map(p=>({p,s:(p.ai_feasibility||0)*(p.ai_priority||0)})).sort((a,b)=>b.s-a.s).slice(0,3).filter(x=>x.s>0);
+  document.getElementById("stats").innerHTML=`
+    <div class="stat"><div class="n">${total}</div><div class="l">计划总数</div></div>
+    <div class="stat"><div class="n">${rated}</div><div class="l">我已评分</div></div>
+    <div class="stat"><div class="n">${uf}</div><div class="l">我的平均可行性</div></div>
+    <div class="stat"><div class="n">${up}</div><div class="l">我的平均优先级</div></div>
+    <div class="stat"><div class="n">${af}</div><div class="l">AI平均可行性</div></div>
+    <div class="stat"><div class="n">${ap}</div><div class="l">AI平均优先级</div></div>
+    <div class="stat"><div class="n">${top.length?top[0].p.id:"-"}</div><div class="l">AI综合最高</div></div>
+  `;
+}
+
+["q","cat","status","sort","unrated"].forEach(id=>{
+  document.getElementById(id).addEventListener("input",render);
+  document.getElementById(id).addEventListener("change",render);
+});
+document.getElementById("reset").onclick=()=>{
+  document.getElementById("q").value=""; document.getElementById("cat").value="";
+  document.getElementById("status").value=""; document.getElementById("sort").value="created";
+  document.getElementById("unrated").checked=false; render();
+};
+document.getElementById("export").onclick=()=>{
+  const blob=new Blob([JSON.stringify(UD,null,2)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="我的评分备注.json"; a.click(); toast("已导出");
+};
+document.getElementById("importBtn").onclick=()=>document.getElementById("importFile").click();
+document.getElementById("importFile").onchange=(e)=>{
+  const f=e.target.files[0]; if(!f) return; const r=new FileReader();
+  r.onload=()=>{ try{ const d=JSON.parse(r.result); UD=Object.assign(UD,d); saveUD(); render(); toast("导入成功"); }catch(err){ alert("解析失败"); } };
+  r.readAsText(f);
+};
+render();
+</script>
+</body>
+</html>
