@@ -245,7 +245,7 @@ function renderStats(){
   });
   const uf=rated?(sf/rated).toFixed(1):"-", up=rated?(sp/rated).toFixed(1):"-";
   const af=total?(saf/total).toFixed(1):"-", ap=total?(sap/total).toFixed(1):"-";
-  const top=PLANS.map(p=>({p:s:(p.ai_feasibility||0)*(p.ai_priority||0)})).sort((a,b)=>b.s-a.s).slice(0,3).filter(x=>x.s>0);
+  const top=PLANS.map(p=>({p, s:(p.ai_feasibility||0)*(p.ai_priority||0)})).sort((a,b)=>b.s-a.s).slice(0,3).filter(x=>x.s>0);
   document.getElementById("stats").innerHTML=`
     <div class="stat"><div class="n">${total}</div><div class="l">计划总数</div></div>
     <div class="stat"><div class="n">${rated}</div><div class="l">我已评分</div></div>
