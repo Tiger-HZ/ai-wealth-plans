@@ -103,6 +103,7 @@
   <div class="legend" id="legend"></div>
   <div class="grid" id="grid"></div>
   <div class="empty" id="empty" style="display:none">没有匹配的计划。试试调整筛选条件。</div>
+  <div class="empty" id="err" style="display:none;color:#b91c1c;border:1px solid #fca5a5;background:#fef2f2"></div>
 </div>
 
 <div class="mask" id="mask">
@@ -129,6 +130,16 @@ const SECTIONS = [
 const STORE = "aifree_userdata_v1";
 const PLANS = window.PLANS || [];
 let UD = loadUD();
+
+// 兜底：任何未捕获脚本错误都显示可见提示，避免无声白屏
+window.addEventListener("error", (ev)=>{
+  const e=document.getElementById("err");
+  if(e){ e.style.display="block"; e.textContent="⚠️ 页面脚本出错："+(ev.message||ev.error||"未知错误")+"（已尽量显示已有内容；可尝试 Ctrl+Shift+R 强制刷新）"; }
+});
+if(!Array.isArray(PLANS) || PLANS.length===0){
+  const e=document.getElementById("err");
+  if(e){ e.style.display="block"; e.textContent="⚠️ 未加载到计划数据（plans-data.js）。请确认网络可访问该文件，或强制刷新。"; }
+}
 
 function loadUD(){ try{return JSON.parse(localStorage.getItem(STORE))||{};}catch(e){return {};} }
 function saveUD(){ localStorage.setItem(STORE, JSON.stringify(UD)); }
@@ -159,7 +170,8 @@ function render(){
     if(sort==="prio") return ub.prio-ua.prio;
     if(sort==="combo") return (ub.feas*ub.prio)-(ua.feas*ua.prio);
     if(sort==="aicombo") return ((b.ai_feasibility||0)*(b.ai_priority||0))-((a.ai_feasibility||0)*(a.ai_priority||0));
-    return b.created.localeCompare(a.created);
+    const bc = b.created || b.id || "", ac = a.created || a.id || "";
+    return bc.toString().localeCompare(ac.toString());
   });
   const grid=document.getElementById("grid"); grid.innerHTML="";
   list.forEach(p=>{
@@ -168,7 +180,7 @@ function render(){
     const card=document.createElement("div"); card.className="card"; card.dataset.id=p.id;
     card.innerHTML=`
       <div class="top"><h3>${esc(p.title)}</h3><span class="badge" style="background:${c}">${esc(p.category)}</span></div>
-      <div class="meta">${p.id} · 第${p.batch}批 · ${esc(p.created)}</div>
+      <div class="meta">${p.id} · 第${p.batch}批 · ${esc(p.created || "")}</div>
       <div class="position">${esc(p.positioning)}</div>
       <div class="airow">
         <span class="ai">AI初评</span>
@@ -192,7 +204,7 @@ function openModal(id){
   document.getElementById("modalBody").innerHTML=`
     <h2>${esc(p.title)}</h2>
     <span class="mbadge" style="background:${c}">${esc(p.category)}</span>
-    <div class="mmeta">${p.id} · 第${p.batch}批 · ${esc(p.created)}</div>
+    <div class="mmeta">${p.id} · 第${p.batch}批 · ${esc(p.created || "")}</div>
     <div class="mpos"><b>一句话定位：</b>${esc(p.positioning)}</div>
     <div class="airow">
       <span class="ai">AI初评</span>
