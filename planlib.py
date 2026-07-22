@@ -28,9 +28,10 @@ ALLOWED_CATEGORIES = [
     "投资·理财", "其他·跨界",
 ]
 
-DEEP_FIELDS = ["positioning","executive","background","market","competition","product",
-               "ai_tech","model","financials","roadmap","team","risks","metrics",
-               "evaluation","sources","ai_feasibility","ai_priority","ai_recommend"]
+DEEP_FIELDS = ["positioning","goal","executive","background","market","competition","product",
+               "mvp","ai_tech","model","financials","roadmap","team","risks","metrics",
+               "synergy","infj_fit","tags","evaluation","sources","ai_feasibility",
+               "ai_priority","ai_recommend"]
 
 MD_SECTIONS = [
     ("一句话定位", "positioning"),

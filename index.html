@@ -32,7 +32,7 @@
   .legend{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 14px}
   .legend span{font-size:11px;color:var(--mut);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:3px 10px}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:14px}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer;transition:.15s;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer;transition:.15s;box-shadow:0 1px 2px rgba(16,24,40,.04);position:relative}
   .card:hover{box-shadow:0 6px 18px rgba(16,24,40,.10);transform:translateY(-2px);border-color:var(--acc)}
   .card .top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
   .card h3{margin:0;font-size:15px;line-height:1.4;color:#102a26}
@@ -46,6 +46,20 @@
   .more{margin-top:10px;color:var(--acc2);font-size:12px;font-weight:600}
   .empty{color:var(--mut);text-align:center;padding:40px}
   .pill{font-size:10px;padding:1px 7px;border-radius:10px;border:1px solid var(--line);color:var(--mut)}
+  .tag{font-size:10px;padding:1px 7px;border-radius:10px;background:#eef2ff;color:#4338ca;border:1px solid #dbe2fe;margin-right:4px}
+  .star{position:absolute;top:10px;right:10px;font-size:18px;cursor:pointer;color:#cbd5e1;user-select:none;z-index:2}
+  .star.on{color:var(--warn)}
+  /* charts */
+  .charts{display:flex;flex-wrap:wrap;gap:14px;margin:10px 0 6px}
+  .chart{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;flex:1;min-width:300px;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+  .chart h4{margin:0 0 8px;font-size:13px;color:var(--acc)}
+  .chart svg{width:100%;height:auto;display:block}
+  /* daily pick */
+  .daily{background:linear-gradient(135deg,#fff,#f3fbf9);border:1px solid #b8e6df;border-radius:12px;padding:14px 16px;margin:10px 0}
+  .daily .dh{display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+  .daily .dh b{color:#0f2e2a;font-size:14px}
+  .daily .dbody{margin-top:8px;font-size:13px;color:#26323c;white-space:pre-wrap}
+  .daily.collapsed .dbody{display:none}
   /* modal */
   .mask{position:fixed;inset:0;background:rgba(15,23,42,.45);display:none;align-items:flex-start;justify-content:center;z-index:50;padding:30px 14px;overflow:auto}
   .mask.open{display:flex}
@@ -54,11 +68,17 @@
   .modal h2{margin:0 0 2px;font-size:20px;color:#0f2e2a;padding-right:30px}
   .modal .mbadge{display:inline-block;font-size:11px;padding:2px 9px;border-radius:20px;color:#fff;font-weight:600;margin-top:4px}
   .modal .mmeta{color:var(--mut);font-size:12px;margin:6px 0 10px}
-  .modal .mpos{background:var(--panel2);border-left:4px solid var(--acc);padding:10px 12px;border-radius:8px;margin-bottom:12px;font-size:14px}
+  .modal .mtags{margin:6px 0}
+  .modal .mpos{background:var(--panel2);border-left:4px solid var(--acc);padding:10px 12px;border-radius:8px;margin-bottom:10px;font-size:14px}
+  .modal .mgoal{background:#fff7ed;border-left:4px solid var(--warn);padding:10px 12px;border-radius:8px;margin-bottom:12px;font-size:13.5px}
   .modal .airow{background:var(--panel2);padding:10px 12px;border-radius:8px}
   .sec{margin:16px 0}
   .sec h4{margin:0 0 4px;font-size:14px;color:var(--acc);border-bottom:2px solid #e6f7f4;padding-bottom:3px}
   .sec p{margin:0;font-size:13.5px;color:#26323c;white-space:pre-wrap}
+  .rel{margin:14px 0;padding:12px;border:1px dashed var(--line);border-radius:10px;background:var(--panel2)}
+  .rel h4{margin:0 0 6px;font-size:13px;color:var(--acc2)}
+  .rel .chip{display:inline-block;font-size:12px;padding:4px 10px;margin:3px 4px 0 0;border:1px solid var(--line);border-radius:18px;background:#fff;cursor:pointer}
+  .rel .chip:hover{border-color:var(--acc2);color:var(--acc2)}
   .scorebox{display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin:14px 0;padding:12px;border:1px dashed var(--line);border-radius:10px;background:var(--panel2)}
   .ustars{font-size:20px;cursor:pointer;letter-spacing:2px;color:#cbd5e1}
   .ustars .on{color:var(--warn)}
@@ -85,6 +105,13 @@
       <option value="">全部状态</option>
       <option>想法</option><option>待启动</option><option>进行中</option><option>已搁置</option><option>已放弃</option>
     </select>
+    <select id="minai">
+      <option value="0">任意 AI 综合</option>
+      <option value="4">AI 综合 ≥ 4</option>
+      <option value="9">AI 综合 ≥ 9</option>
+      <option value="16">AI 综合 ≥ 16</option>
+      <option value="25">AI 综合 = 25</option>
+    </select>
     <select id="sort">
       <option value="created">按创建时间</option>
       <option value="feas">按我的可行性</option>
@@ -93,11 +120,20 @@
       <option value="aicombo">按AI综合</option>
     </select>
     <label><input type="checkbox" id="unrated"> 仅看我未评分</label>
+    <label><input type="checkbox" id="favonly"> 仅看收藏</label>
+    <button class="btn" id="rand">🎲 随机灵感</button>
     <button class="btn" id="reset">重置筛选</button>
     <span style="flex:1"></span>
+    <button class="btn" id="exportAll">导出全部计划书</button>
     <button class="btn" id="export">导出我的评分</button>
     <button class="btn" id="importBtn">导入</button>
     <input type="file" id="importFile" accept="application/json" style="display:none">
+  </div>
+
+  <div class="charts" id="charts"></div>
+  <div class="daily collapsed" id="daily">
+    <div class="dh" id="dailyH"><b>📅 每日精选</b><span style="color:var(--mut);font-size:12px">点击展开/收起</span></div>
+    <div class="dbody" id="dailyBody">加载中…</div>
   </div>
 
   <div class="legend" id="legend"></div>
@@ -122,10 +158,11 @@ const CATCOL = {"专业·环保AI":"--c1","双碳·咨询":"--c2","内容·写�
 const SECTIONS = [
   ["执行摘要","executive"],["背景与机会（痛点）","background"],["市场规模与受众","market"],
   ["竞品与现有市场","competition"],["产品与功能详述（PM视角）","product"],
-  ["技术与AI实现（AI专家视角）","ai_tech"],["商业模式与变现","model"],
-  ["营收预测与投入","financials"],["里程碑与路线图","roadmap"],["团队与资源","team"],
-  ["风险与合规","risks"],["关键成功指标","metrics"],["AI评估与建议","evaluation"],
-  ["数据来源/参考","sources"]
+  ["MVP / 冷启动前三步","mvp"],["技术与AI实现（AI专家视角）","ai_tech"],
+  ["商业模式与变现","model"],["营收预测与投入","financials"],["里程碑与路线图","roadmap"],
+  ["团队与资源","team"],["风险与合规","risks"],["关键成功指标","metrics"],
+  ["协同与组合","synergy"],["与你的特质契合（INFJ）","infj_fit"],
+  ["AI评估与建议","evaluation"],["数据来源/参考","sources"]
 ];
 const STORE = "aifree_userdata_v1";
 const PLANS = window.PLANS || [];
@@ -143,9 +180,10 @@ if(!Array.isArray(PLANS) || PLANS.length===0){
 
 function loadUD(){ try{return JSON.parse(localStorage.getItem(STORE))||{};}catch(e){return {};} }
 function saveUD(){ localStorage.setItem(STORE, JSON.stringify(UD)); }
-function getU(id){ return UD[id] || {feas:0,prio:0,status:"想法",comment:""}; }
+function getU(id){ return UD[id] || {feas:0,prio:0,status:"想法",comment:"",fav:false}; }
 function setU(id, patch){ UD[id]=Object.assign(getU(id), patch); saveUD(); }
-function esc(s){ return (s||"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function esc(s){ return (s==null?"":String(s)).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+function tagsHtml(p){ const t=Array.isArray(p.tags)?p.tags:[]; return t.map(x=>`<span class="tag">${esc(x)}</span>`).join(""); }
 function toast(m){ const t=document.getElementById("toast"); t.textContent=m; t.classList.add("show"); setTimeout(()=>t.classList.remove("show"),1600); }
 function stars(val){ let s=""; for(let i=1;i<=5;i++) s+=`<span class="${i<=val?'on':''}">★</span>`; return s; }
 function col(c){ return getComputedStyle(document.documentElement).getPropertyValue(CATCOL[c]||"--c1").trim(); }
@@ -157,10 +195,13 @@ function render(){
   const q=document.getElementById("q").value.trim().toLowerCase();
   const cat=document.getElementById("cat").value, st=document.getElementById("status").value;
   const unrated=document.getElementById("unrated").checked, sort=document.getElementById("sort").value;
+  const favonly=document.getElementById("favonly").checked, minai=parseInt(document.getElementById("minai").value||"0",10);
   let list=PLANS.filter(p=>{
     if(cat && p.category!==cat) return false;
     if(st && getU(p.id).status!==st) return false;
     if(unrated && (getU(p.id).feas>0||getU(p.id).prio>0)) return false;
+    if(favonly && !getU(p.id).fav) return false;
+    if(minai){ const s=(p.ai_feasibility||0)*(p.ai_priority||0); if(s<minai) return false; }
     if(q){ const hay=JSON.stringify(p).toLowerCase(); if(!hay.includes(q)) return false; }
     return true;
   });
@@ -179,6 +220,7 @@ function render(){
     const af=p.ai_feasibility||0, ap=p.ai_priority||0;
     const card=document.createElement("div"); card.className="card"; card.dataset.id=p.id;
     card.innerHTML=`
+      <div class="star ${u.fav?'on':''}" data-star="${p.id}" title="收藏">${u.fav?'★':'☆'}</div>
       <div class="top"><h3>${esc(p.title)}</h3><span class="badge" style="background:${c}">${esc(p.category)}</span></div>
       <div class="meta">${p.id} · 第${p.batch}批 · ${esc(p.created || "")}</div>
       <div class="position">${esc(p.positioning)}</div>
@@ -189,7 +231,8 @@ function render(){
         <span class="pill">AI综合 ${af*ap}</span>
       </div>
       <div class="more">点击查看完整计划书 →</div>`;
-    card.onclick=()=>openModal(p.id);
+    card.onclick=(e)=>{ if(e.target.dataset.star) return; openModal(p.id); };
+    card.querySelector('[data-star]').onclick=(e)=>{ e.stopPropagation(); const cur=getU(p.id); setU(p.id,{fav:!cur.fav}); render(); toast(cur.fav?"已取消收藏":"★ 已收藏"); };
     grid.appendChild(card);
   });
   document.getElementById("empty").style.display = list.length? "none":"block";
@@ -200,12 +243,19 @@ function openModal(id){
   const p=PLANS.find(x=>x.id===id); if(!p) return;
   const u=getU(id); const c=col(p.category);
   const af=p.ai_feasibility||0, ap=p.ai_priority||0;
-  const secs=SECTIONS.map(([lab,key])=>`<div class="sec"><h4>${lab}</h4><p>${esc(p[key])}</p></div>`).join("");
+  const secs=SECTIONS.map(([lab,key])=>{
+    const v=p[key];
+    if(v==null || v==="") return "";
+    return `<div class="sec"><h4>${lab}</h4><p>${esc(v)}</p></div>`;
+  }).join("");
+  const rel=relatedPlans(p).map(r=>`<span class="chip" data-rel="${r.id}">${esc(r.title)}</span>`).join("");
   document.getElementById("modalBody").innerHTML=`
     <h2>${esc(p.title)}</h2>
     <span class="mbadge" style="background:${c}">${esc(p.category)}</span>
     <div class="mmeta">${p.id} · 第${p.batch}批 · ${esc(p.created || "")}</div>
+    <div class="mtags">${tagsHtml(p)}</div>
     <div class="mpos"><b>一句话定位：</b>${esc(p.positioning)}</div>
+    ${p.goal?`<div class="mgoal"><b>🎯 目标与预期收益：</b>${esc(p.goal)}</div>`:""}
     <div class="airow">
       <span class="ai">AI初评</span>
       <span>可行性 ${stars(af)} <b>${af||"-"}</b>/5</span>
@@ -213,6 +263,7 @@ function openModal(id){
       <span class="pill">AI综合 ${af*ap}</span>
     </div>
     ${secs}
+    ${rel?`<div class="rel"><h4>🔗 相关 / 可协同计划（按标签）</h4>${rel}</div>`:""}
     <div class="scorebox">
       <div><span style="color:var(--mut);font-size:12px">我的可行性</span><br><span class="ustars" data-f="feas" data-id="${id}">${stars(u.feas)}<span class="val">${u.feas||"-"}</span></span></div>
       <div><span style="color:var(--mut);font-size:12px">我的优先级</span><br><span class="ustars" data-f="prio" data-id="${id}">${stars(u.prio)}<span class="val">${u.prio||"-"}</span></span></div>
@@ -221,12 +272,28 @@ function openModal(id){
         <span class="pill">我的综合 ${u.feas*u.prio}</span>
       </div>
       <textarea data-f="comment" data-id="${id}" placeholder="我的备注 / 可行性判断 / 下一步…">${esc(u.comment)}</textarea>
-      <div><button class="btn" id="copyId">复制ID ${id}</button></div>
+      <div>
+        <button class="btn" id="copyId">复制ID ${id}</button>
+        <button class="btn" id="copyMd">复制全文(Markdown)</button>
+        <button class="btn" id="favBtn">${u.fav?'★ 已收藏':'☆ 收藏'}</button>
+      </div>
     </div>`;
   bindModal(id);
   document.getElementById("mask").classList.add("open");
   document.body.style.overflow="hidden";
 }
+
+function relatedPlans(p){
+  const tags=new Set(Array.isArray(p.tags)?p.tags:[]);
+  if(tags.size===0) return [];
+  return PLANS.filter(x=>x.id!==p.id).map(x=>{
+    const ot=new Set(Array.isArray(x.tags)?x.tags:[]);
+    let n=0; tags.forEach(t=>{ if(ot.has(t)) n++; });
+    if(x.category===p.category) n+=0.5;
+    return {id:x.id, title:x.title, n};
+  }).filter(x=>x.n>0).sort((a,b)=>b.n-a.n).slice(0,5);
+}
+
 function bindModal(id){
   document.querySelectorAll("#modal .ustars").forEach(s=>{
     s.onclick=(e)=>{
@@ -241,19 +308,34 @@ function bindModal(id){
     t.oninput=()=>{ setU(id,{comment:t.value}); };
     t.onblur=()=>toast("备注已保存");
   });
-  document.getElementById("copyId").onclick=()=>{ navigator.clipboard.writeText(id).then(()=>toast("已复制 "+id)); };
+  const cp=document.getElementById("copyId"); if(cp) cp.onclick=()=>{ navigator.clipboard.writeText(id).then(()=>toast("已复制 "+id)); };
+  const cm=document.getElementById("copyMd"); if(cm) cm.onclick=()=>{ navigator.clipboard.writeText(planToMarkdown(id)).then(()=>toast("已复制全文 Markdown")); };
+  const fb=document.getElementById("favBtn"); if(fb) fb.onclick=()=>{ const cur=getU(id); setU(id,{fav:!cur.fav}); openModal(id); toast(cur.fav?"已取消收藏":"★ 已收藏"); };
+  document.querySelectorAll("#modal .rel .chip").forEach(ch=>{ ch.onclick=()=>openModal(ch.dataset.rel); });
 }
 function closeModal(){ document.getElementById("mask").classList.remove("open"); document.body.style.overflow=""; }
 document.getElementById("closeX").onclick=closeModal;
 document.getElementById("mask").onclick=(e)=>{ if(e.target.id==="mask") closeModal(); };
 
+function planToMarkdown(id){
+  const p=PLANS.find(x=>x.id===id); if(!p) return "";
+  const L=[`# ${p.title}`, `> 分类：${p.category} ｜ ID：${p.id} ｜ 批次：${p.batch} ｜ 创建：${p.created||""}`, ``,
+    `**一句话定位：** ${p.positioning||""}`, p.goal?`**目标与预期收益：** ${p.goal}`:"",
+    `**AI初评：** 可行性 ${p.ai_feasibility||"-"}/5 · 优先级 ${p.ai_priority||"-"}/5`, ``];
+  SECTIONS.forEach(([lab,key])=>{ const v=p[key]; if(v) L.push(`## ${lab}\n${v}\n`); });
+  if(Array.isArray(p.tags)&&p.tags.length) L.push(`**标签：** ${p.tags.join("、")}`);
+  return L.join("\n");
+}
+
 function renderStats(){
   const total=PLANS.length;
   let rated=0,sf=0,sp=0, saf=0,sap=0;
   const byCat={}; CATS.forEach(c=>byCat[c]=0);
-  PLANS.forEach(p=>{ const u=getU(p.id); byCat[p.category]++;
+  let latest="";
+  PLANS.forEach(p=>{ const u=getU(p.id); byCat[p.category]=(byCat[p.category]||0)+1;
     if(u.feas||u.prio){rated++; sf+=u.feas; sp+=u.prio;}
     saf+=(p.ai_feasibility||0); sap+=(p.ai_priority||0);
+    if(p.created && p.created>latest) latest=p.created;
   });
   const uf=rated?(sf/rated).toFixed(1):"-", up=rated?(sp/rated).toFixed(1):"-";
   const af=total?(saf/total).toFixed(1):"-", ap=total?(sap/total).toFixed(1):"-";
@@ -265,16 +347,70 @@ function renderStats(){
     <div class="stat"><div class="n">${up}</div><div class="l">我的平均优先级</div></div>
     <div class="stat"><div class="n">${af}</div><div class="l">AI平均可行性</div></div>
     <div class="stat"><div class="n">${ap}</div><div class="l">AI平均优先级</div></div>
-    <div class="stat"><div class="n">${top.length?top[0].p.id:"-"}</div><div class="l">AI综合最高</div></div>`;
+    <div class="stat"><div class="n">${top.length?top[0].p.id:"-"}</div><div class="l">AI综合最高</div></div>
+    <div class="stat"><div class="n" style="font-size:14px">${latest?latest.replace("T"," "):"-"}</div><div class="l">最近更新</div></div>`;
+  renderCharts(byCat);
 }
-["q","cat","status","sort","unrated"].forEach(id=>{
+
+function renderCharts(byCat){
+  // 分类分布条形图
+  const maxCat=Math.max(1,...Object.values(byCat));
+  let bars="";
+  CATS.forEach(c=>{ const n=byCat[c]||0; const w=Math.round(n/maxCat*100); const colc=col(c);
+    bars+=`<div style="display:flex;align-items:center;gap:8px;margin:4px 0;font-size:12px">
+      <div style="width:92px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c}</div>
+      <div style="flex:1;background:#eef2f7;border-radius:6px;height:14px;overflow:hidden"><div style="width:${w}%;background:${colc};height:100%"></div></div>
+      <div style="width:22px;text-align:right;color:var(--txt)">${n}</div></div>`;
+  });
+  // AI评分分布（可行性/优先级 1-5 计数）
+  const fcnt=[0,0,0,0,0,0], pcnt=[0,0,0,0,0,0];
+  PLANS.forEach(p=>{ const a=Math.max(0,Math.min(5,p.ai_feasibility||0)); const b=Math.max(0,Math.min(5,p.ai_priority||0)); if(a)fcnt[a]++; if(b)pcnt[b]++; });
+  const maxS=Math.max(1,...fcnt,...pcnt);
+  let dist="";
+  for(let i=1;i<=5;i++){
+    const wf=Math.round(fcnt[i]/maxS*100), wp=Math.round(pcnt[i]/maxS*100);
+    dist+=`<div style="display:flex;align-items:center;gap:8px;margin:3px 0;font-size:12px">
+      <div style="width:54px;color:var(--mut)">${i}★</div>
+      <div style="flex:1">
+        <div style="background:#0d9488;height:8px;border-radius:4px;width:${wf}%;margin:1px 0"></div>
+        <div style="background:#2563eb;height:8px;border-radius:4px;width:${wp}%;margin:1px 0"></div>
+      </div>
+      <div style="width:40px;text-align:right;color:var(--txt)">${fcnt[i]}/${pcnt[i]}</div></div>`;
+  }
+  document.getElementById("charts").innerHTML=`
+    <div class="chart"><h4>📊 分类分布</h4>${bars}</div>
+    <div class="chart"><h4>📊 AI 可行性 / 优先级 分布（绿=可行性 蓝=优先级）</h4>${dist}</div>`;
+}
+
+function loadDaily(){
+  const box=document.getElementById("dailyBody");
+  fetch("每日推送.md").then(r=>{ if(!r.ok) throw new Error("no"); return r.text(); }).then(t=>{
+    const secs=t.split(/\n(?=##\s)/).filter(s=>s.startsWith("##"));
+    if(!secs.length){ box.textContent="暂无每日精选（等待自动推送生成）。"; return; }
+    const last=secs[secs.length-1];
+    box.textContent=last.replace(/^##\s*.*\n/, "").trim();
+  }).catch(()=>{ box.textContent="（每日精选需通过 GitHub Pages 访问；本地直接打开文件时不可用。）"; });
+}
+document.getElementById("dailyH").onclick=()=>document.getElementById("daily").classList.toggle("collapsed");
+
+document.getElementById("rand").onclick=()=>{ if(!PLANS.length) return; const p=PLANS[Math.floor(Math.random()*PLANS.length)]; openModal(p.id); };
+
+document.getElementById("exportAll").onclick=()=>{
+  let md="# AI 财富自由 · 计划书全集\n\n";
+  PLANS.forEach(p=>{ md+=planToMarkdown(p)+"\n\n---\n\n"; });
+  const blob=new Blob([md],{type:"text/markdown"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="AI财富自由计划书全集.md"; a.click(); toast("已导出全部计划书");
+};
+
+["q","cat","status","sort","minai","unrated","favonly"].forEach(id=>{
   document.getElementById(id).addEventListener("input",render);
   document.getElementById(id).addEventListener("change",render);
 });
 document.getElementById("reset").onclick=()=>{
   document.getElementById("q").value=""; document.getElementById("cat").value="";
   document.getElementById("status").value=""; document.getElementById("sort").value="created";
-  document.getElementById("unrated").checked=false; render();
+  document.getElementById("minai").value="0"; document.getElementById("unrated").checked=false;
+  document.getElementById("favonly").checked=false; render();
 };
 document.getElementById("export").onclick=()=>{
   const blob=new Blob([JSON.stringify(UD,null,2)],{type:"application/json"});
@@ -286,6 +422,7 @@ document.getElementById("importFile").onchange=(e)=>{
   r.onload=()=>{ try{ const d=JSON.parse(r.result); UD=Object.assign(UD,d); saveUD(); render(); toast("导入成功"); }catch(err){ alert("解析失败"); } };
   r.readAsText(f);
 };
+loadDaily();
 render();
 </script>
 </body>
